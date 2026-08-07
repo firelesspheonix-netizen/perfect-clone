@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { ArrowLeft, X, Palette, Eye, Scissors, Wand2, Loader2, Download, Eraser, Sparkles } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from '@/lib/navigation';
 import { ImageUpload } from '@/components/studio/ImageUpload';
 import { RetouchCanvas } from '@/components/studio/RetouchCanvas';
 import { supabase } from '@/integrations/supabase/client';

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ArrowLeft, Wand2, Loader2, Download, Shirt, Upload } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from '@/lib/navigation';
 import { ImageUpload } from '@/components/studio/ImageUpload';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';

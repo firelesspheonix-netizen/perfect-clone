@@ -4,7 +4,7 @@ import { CharacterConfig, BodySize, ExpressionPreset, HairstyleOption, PosePrese
 import { ImageUpload } from './ImageUpload';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from '@/lib/navigation';
 import {
   getCharacterPresets, saveCharacterPreset, deleteCharacterPreset, characterToPreset, applyCharacterPreset,
   getPosePresets, savePosePreset, deletePosePreset, PosePresetSaved,
