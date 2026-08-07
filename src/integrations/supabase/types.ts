@@ -14,7 +14,156 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      background_presets: {
+        Row: {
+          created_at: string
+          description: string
+          id: string
+          image_url: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          id?: string
+          image_url?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: string
+          image_url?: string | null
+        }
+        Relationships: []
+      }
+      character_presets: {
+        Row: {
+          created_at: string
+          data: Json
+          face_url: string | null
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          data: Json
+          face_url?: string | null
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          data?: Json
+          face_url?: string | null
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      clothing_presets: {
+        Row: {
+          created_at: string
+          id: string
+          image_url: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          image_url: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          image_url?: string
+        }
+        Relationships: []
+      }
+      face_presets: {
+        Row: {
+          created_at: string
+          id: string
+          image_url: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          image_url: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          image_url?: string
+        }
+        Relationships: []
+      }
+      generation_history: {
+        Row: {
+          characters: Json
+          created_at: string
+          id: string
+          image_data: string
+          prompt: string
+          settings: Json
+        }
+        Insert: {
+          characters: Json
+          created_at?: string
+          id?: string
+          image_data: string
+          prompt: string
+          settings: Json
+        }
+        Update: {
+          characters?: Json
+          created_at?: string
+          id?: string
+          image_data?: string
+          prompt?: string
+          settings?: Json
+        }
+        Relationships: []
+      }
+      pose_presets: {
+        Row: {
+          created_at: string
+          id: string
+          image_url: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          image_url: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          image_url?: string
+        }
+        Relationships: []
+      }
+      settings_presets: {
+        Row: {
+          characters: Json
+          created_at: string
+          id: string
+          name: string
+          settings: Json
+        }
+        Insert: {
+          characters: Json
+          created_at?: string
+          id?: string
+          name: string
+          settings: Json
+        }
+        Update: {
+          characters?: Json
+          created_at?: string
+          id?: string
+          name?: string
+          settings?: Json
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
