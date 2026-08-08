@@ -80,6 +80,7 @@ export interface GenerationSettings {
   customAspectRatio: string;
   cameraAngle: CameraAngle;
   customCameraAngle: string;
+  ultraPhotorealistic8k: boolean;
   backgroundImage: string | null;
   backgroundText: string;
   lighting: LightingOption;

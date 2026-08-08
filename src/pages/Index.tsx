@@ -20,6 +20,7 @@ const defaultSettings: GenerationSettings = {
   customAspectRatio: '',
   cameraAngle: 'auto',
   customCameraAngle: '',
+  ultraPhotorealistic8k: false,
   backgroundImage: null,
   backgroundText: '',
   lighting: 'auto',
