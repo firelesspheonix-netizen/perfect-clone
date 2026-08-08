@@ -191,6 +191,16 @@ export function GenerationSettingsPanel({ settings, onChange }: GenerationSettin
         />
       )}
 
+      <label className="flex items-center gap-2 cursor-pointer">
+        <input
+          type="checkbox"
+          checked={settings.copyPoseAngle || false}
+          onChange={(e) => update('copyPoseAngle', e.target.checked)}
+          className="rounded border-border text-primary focus:ring-primary h-3.5 w-3.5"
+        />
+        <span className="text-xs font-medium text-foreground">Copy camera angle from pose reference image</span>
+      </label>
+
       {/* Photo Style */}
       <div className="space-y-1.5">
         <div className="flex items-center gap-1.5">
