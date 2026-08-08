@@ -31,7 +31,7 @@ export function ImageUpload({ label, value, onChange, compact = false }: ImageUp
         <img src={value} alt={label} className="w-12 h-12 rounded-md object-cover border border-border" />
         <button
           onClick={() => onChange(null)}
-          className="absolute -top-1 -right-1 w-4 h-4 bg-destructive rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+          className="absolute -top-1 -right-1 w-4 h-4 bg-destructive rounded-full flex items-center justify-center opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity"
         >
           <X className="w-3 h-3 text-destructive-foreground" />
         </button>
@@ -45,7 +45,7 @@ export function ImageUpload({ label, value, onChange, compact = false }: ImageUp
       {value ? (
         <div className="relative group rounded-lg overflow-hidden border border-border">
           <img src={value} alt={label} className="w-full h-28 object-cover" />
-          <div className="absolute inset-0 bg-background/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+          <div className="absolute inset-0 bg-background/60 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
             <button
               onClick={() => inputRef.current?.click()}
               className="px-2 py-1 text-xs bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/80"

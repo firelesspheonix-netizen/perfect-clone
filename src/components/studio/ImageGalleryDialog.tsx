@@ -143,15 +143,15 @@ export function ImageGalleryDialog({ open, onClose, title, items, onSelect, onDe
                     alt={item.label || 'Saved image'}
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity pointer-events-none" />
                   <button
                     onClick={(e) => { e.stopPropagation(); onDelete(item.id); }}
-                    className="absolute top-1 right-1 p-1 bg-destructive/90 rounded-md opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                    className="absolute top-1 right-1 p-1 bg-destructive/90 rounded-md opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity z-10"
                   >
                     <Trash2 className="w-3 h-3 text-destructive-foreground" />
                   </button>
                   {item.label && (
-                    <span className="absolute bottom-1 left-1 right-1 text-[9px] text-foreground font-medium truncate opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                    <span className="absolute bottom-1 left-1 right-1 text-[9px] text-foreground font-medium truncate opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity pointer-events-none">
                       {item.label}
                     </span>
                   )}

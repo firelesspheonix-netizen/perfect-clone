@@ -43,7 +43,7 @@ export function GeneratedGallery({ images, onReprompt }: GeneratedGalleryProps) 
                 className="w-full aspect-square object-cover cursor-pointer"
                 onClick={() => setEnlargedId(img.id)}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                 <div className="absolute bottom-2 left-2 right-2 flex gap-1">
                   <button
                     onClick={() => setEnlargedId(img.id)}
