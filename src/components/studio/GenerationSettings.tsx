@@ -191,6 +191,23 @@ export function GenerationSettingsPanel({ settings, onChange }: GenerationSettin
         />
       )}
 
+      {/* Photo Style */}
+      <div className="space-y-1.5">
+        <div className="flex items-center gap-1.5">
+          <Sparkles className="w-3.5 h-3.5 text-primary" />
+          <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Photo Style</label>
+        </div>
+        <label className="flex items-center gap-2 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={settings.ultraPhotorealistic8k || false}
+            onChange={(e) => update('ultraPhotorealistic8k', e.target.checked)}
+            className="rounded border-border text-primary focus:ring-primary h-3.5 w-3.5"
+          />
+          <span className="text-xs font-medium text-foreground">8k ultra photorealistic</span>
+        </label>
+      </div>
+
       <label className="flex items-center gap-2 cursor-pointer">
         <input
           type="checkbox"
