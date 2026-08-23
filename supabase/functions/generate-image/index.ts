@@ -5,6 +5,9 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version',
 };
 
+const normalizeModel = (m?: string) =>
+  (m || "google/gemini-3-pro-image").replace(/-preview$/, "");
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -24,10 +27,10 @@ serve(async (req) => {
       }
     }
 
-    const MAX_RETRIES = 20;
-    let lastError: { status: number; message: string } | null = null;
-    let imageUrl: string | undefined;
-    let textContent = "";
+    // Only transient 5xx / network failures are retried. Every 4xx and every
+    // completed-but-imageless call is already billed, so retrying burns credits.
+    const MAX_RETRIES = 2;
+    let lastError = "unknown";
 
     for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
       try {
@@ -35,14 +38,13 @@ serve(async (req) => {
           method: "POST",
           headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
           body: JSON.stringify({
-            model: model || "google/gemini-3-pro-image-preview",
+            model: normalizeModel(model),
             messages: [{ role: "user", content }],
             modalities: ["image", "text"],
           }),
         });
 
         if (!response.ok) {
-          // Don't retry on rate limit / payment issues - return immediately
           if (response.status === 429) {
             return new Response(JSON.stringify({ error: "Rate limit exceeded. Please try again in a moment." }), { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } });
           }
@@ -51,32 +53,33 @@ serve(async (req) => {
           }
           const text = await response.text();
           console.error(`AI gateway error (attempt ${attempt}/${MAX_RETRIES}):`, response.status, text);
-          lastError = { status: response.status, message: text };
-          await new Promise((r) => setTimeout(r, Math.min(1000 * attempt, 5000)));
+          if (response.status < 500) {
+            return new Response(JSON.stringify({ error: `Request rejected (${response.status}): ${text}` }), { status: response.status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+          }
+          lastError = `${response.status} ${text}`;
+          if (attempt < MAX_RETRIES) await new Promise((r) => setTimeout(r, 1000 * attempt));
           continue;
         }
 
         const data = await response.json();
-        imageUrl = data.choices?.[0]?.message?.images?.[0]?.image_url?.url;
-        textContent = data.choices?.[0]?.message?.content || "";
+        const imageUrl = data.choices?.[0]?.message?.images?.[0]?.image_url?.url;
+        const textContent = data.choices?.[0]?.message?.content || "";
 
         if (!imageUrl) {
-          console.error(`No image returned (attempt ${attempt}/${MAX_RETRIES})`);
-          lastError = { status: 502, message: "No image returned from model" };
-          await new Promise((r) => setTimeout(r, Math.min(1000 * attempt, 5000)));
-          continue;
+          // Billed call that produced no image — do not retry.
+          console.error("No image returned from model");
+          return new Response(JSON.stringify({ error: "The model returned no image (request was still billed). Try adjusting your prompt." }), { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } });
         }
 
-        // Success
         return new Response(JSON.stringify({ imageUrl, textContent, attempts: attempt }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
       } catch (err) {
         console.error(`Fetch error (attempt ${attempt}/${MAX_RETRIES}):`, err);
-        lastError = { status: 500, message: err instanceof Error ? err.message : "Unknown fetch error" };
-        await new Promise((r) => setTimeout(r, Math.min(1000 * attempt, 5000)));
+        lastError = err instanceof Error ? err.message : "Unknown fetch error";
+        if (attempt < MAX_RETRIES) await new Promise((r) => setTimeout(r, 1000 * attempt));
       }
     }
 
-    return new Response(JSON.stringify({ error: `Image generation failed after ${MAX_RETRIES} attempts. Last error: ${lastError?.message ?? "unknown"}` }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    return new Response(JSON.stringify({ error: `Image generation failed after ${MAX_RETRIES} attempts. Last error: ${lastError}` }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
   } catch (e) {
     console.error("generate-image error:", e);
     return new Response(JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
