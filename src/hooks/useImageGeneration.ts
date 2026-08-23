@@ -76,9 +76,7 @@ function buildPrompt(characters: CharacterConfig[], settings: GenerationSettings
   }
 
   if (settings.backgroundImage) {
-    if (settings.recreateBackground) {
-      parts.push("BACKGROUND MODE — RECREATE (do NOT composite): Treat the provided background image ONLY as a visual reference for the location. Do NOT copy, paste, or composite the actual pixels of that image. Instead, fully RE-RENDER that same environment from scratch as a native part of this photograph: same place, same architecture/objects/materials/colors/textures/layout and overall mood, but newly generated so the character and the scene share one consistent, physically correct render. You have full freedom to choose the camera position, framing, crop, zoom level and how much of the environment is visible so that the composition suits the requested shot type and aspect ratio — show only the portion of the location that makes sense for this framing, and plausibly extend or invent off-frame areas of that same location where needed. Ignore the original photo's lighting, exposure, white balance, resolution and image quality entirely — instead light the whole scene (background and character together) with the lighting, quality and camera characteristics requested elsewhere in this prompt, with matching shadows, reflections, colour grading, depth of field and perspective on both the character and the environment. The character must look natively photographed in that place, never pasted on top of it.");
-    } else if (settings.cameraAngle !== 'auto') {
+    if (settings.cameraAngle !== 'auto') {
       const angleKey = settings.cameraAngle === 'custom' ? settings.customCameraAngle : settings.cameraAngle;
       const bgAngleInstructions: Record<string, string> = {
         'top-down': "Since the camera is top-down, intelligently zoom into and show only the FLOOR/GROUND area of the provided background image. Place the character as if viewed from directly above, lying or positioned on the ground surface visible in the background.",
