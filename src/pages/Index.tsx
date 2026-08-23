@@ -27,6 +27,7 @@ const defaultSettings: GenerationSettings = {
   skinDetail: 'auto',
   eyeDetail: 'auto',
   confineToBackground: false,
+  recreateBackground: false,
   imageCount: 1,
   cameraQuality: 'none',
   scenePrompt: '',

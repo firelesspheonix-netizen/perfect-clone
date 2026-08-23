@@ -87,6 +87,7 @@ export interface GenerationSettings {
   skinDetail: DetailLevel;
   eyeDetail: DetailLevel;
   confineToBackground: boolean;
+  recreateBackground: boolean;
   imageCount: number;
   cameraQuality: CameraQuality;
   scenePrompt: string;
