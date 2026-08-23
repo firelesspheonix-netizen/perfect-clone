@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/alert-dialog';
 
 const defaultSettings: GenerationSettings = {
-  model: 'google/gemini-3-pro-image-preview',
+  model: 'google/gemini-3-pro-image',
   aspectRatio: 'auto',
   customAspectRatio: '',
   cameraAngle: 'auto',

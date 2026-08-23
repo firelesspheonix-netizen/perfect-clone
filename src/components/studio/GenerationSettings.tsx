@@ -65,9 +65,9 @@ const DETAIL_LEVELS: { value: DetailLevel; label: string }[] = [
 ];
 
 const MODELS: { value: AIModel; label: string; desc: string }[] = [
-  { value: 'google/gemini-3-pro-image-preview', label: 'Nano Banana Pro', desc: 'Highest quality' },
+  { value: 'google/gemini-3-pro-image', label: 'Nano Banana Pro', desc: 'Highest quality' },
   { value: 'google/gemini-2.5-flash-image', label: 'Nano Banana', desc: 'Fast generation' },
-  { value: 'google/gemini-3.1-flash-image-preview', label: 'Nano Banana 2', desc: 'Fast + pro quality' },
+  { value: 'google/gemini-3.1-flash-image', label: 'Nano Banana 2', desc: 'Fast + pro quality' },
 ];
 
 function ChipSelector<T extends string>({ icon, label, options, value, onChange }: {

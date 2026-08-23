@@ -97,7 +97,7 @@ export default function Appearance() {
         const referenceImages = [sourceImage];
         if (hairRefImage) referenceImages.push(hairRefImage);
         if (eyeRefImage) referenceImages.push(eyeRefImage);
-        const { data, error } = await supabase.functions.invoke('generate-image', { body: { prompt: buildPrompt(), model: 'google/gemini-3-pro-image-preview', referenceImages } });
+        const { data, error } = await supabase.functions.invoke('generate-image', { body: { prompt: buildPrompt(), model: 'google/gemini-3-pro-image', referenceImages } });
         if (error) throw error;
         if (data?.error) { toast.error(data.error); return; }
         if (data?.imageUrl) { setResults(prev => [{ id: crypto.randomUUID(), imageUrl: data.imageUrl, timestamp: Date.now() }, ...prev]); toast.success('Image edited successfully!'); }
