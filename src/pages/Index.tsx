@@ -89,17 +89,22 @@ export default function Index() {
     setIsImporting(true);
     try {
       const json = await file.text();
-      const counts = await importAllData(json, (msg) => toast.info(msg));
+      const counts = await importAllData(json, (msg) => toast.info(msg, { id: 'import-progress' }));
       toast.success(
-        `Imported ${counts.characters} characters, ${counts.poses} poses, ${counts.clothing} clothing, ${counts.backgrounds} backgrounds, ${counts.settingsPresets} settings`
+        `${counts.resumed ? 'Resumed import complete' : 'Import complete'}: ${counts.characters} characters, ${counts.poses} poses, ${counts.clothing} clothing, ${counts.backgrounds} backgrounds, ${counts.settingsPresets} settings`,
+        { id: 'import-progress' }
       );
     } catch (e: any) {
-      toast.error(`Import failed: ${e.message}`);
+      toast.error(
+        `Import stopped: ${e.message}. Pick the same file again to resume where it left off.`,
+        { id: 'import-progress' }
+      );
     } finally {
       setIsImporting(false);
       if (fileInputRef.current) fileInputRef.current.value = '';
     }
   };
+
 
   const removeCharacter = useCallback((id: string) => {
     setCharacters((prev) => prev.filter((c) => c.id !== id));
