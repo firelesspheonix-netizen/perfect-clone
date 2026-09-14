@@ -18,6 +18,7 @@ export async function autoSeedIfEmpty() {
       supabase.from('clothing_presets').select('id', { count: 'exact', head: true }),
       supabase.from('background_presets').select('id', { count: 'exact', head: true }),
       supabase.from('settings_presets').select('id', { count: 'exact', head: true }),
+      supabase.from('face_presets').select('id', { count: 'exact', head: true }),
     ]);
 
     const totalCount = counts.reduce((sum, r) => sum + (r.count ?? 0), 0);
