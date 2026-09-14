@@ -31,7 +31,8 @@ export async function autoSeedIfEmpty() {
     }
 
     const { characters, poses, clothing, backgrounds, settings } = seedData;
-    const totalSeed = characters.length + poses.length + clothing.length + backgrounds.length + settings.length;
+    const faces = seedData.faces ?? [];
+    const totalSeed = characters.length + poses.length + clothing.length + backgrounds.length + settings.length + faces.length;
 
     if (totalSeed === 0) {
       console.log(TAG, 'Seed file is empty, nothing to insert.');
