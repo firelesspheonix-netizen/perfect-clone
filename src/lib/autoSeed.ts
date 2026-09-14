@@ -72,6 +72,12 @@ export async function autoSeedIfEmpty() {
       else console.log(TAG, `Seeded ${settings.length} settings presets`);
     }
 
+    if (faces.length > 0) {
+      const { error } = await supabase.from('face_presets').insert(faces);
+      if (error) console.error(TAG, 'Error seeding faces:', error);
+      else console.log(TAG, `Seeded ${faces.length} face presets`);
+    }
+
     console.log(TAG, 'Seeding complete!');
     localStorage.setItem('studio_seed_applied', 'true');
   } catch (err) {
