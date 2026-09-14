@@ -18,6 +18,7 @@ export async function autoSeedIfEmpty() {
       supabase.from('clothing_presets').select('id', { count: 'exact', head: true }),
       supabase.from('background_presets').select('id', { count: 'exact', head: true }),
       supabase.from('settings_presets').select('id', { count: 'exact', head: true }),
+      supabase.from('face_presets').select('id', { count: 'exact', head: true }),
     ]);
 
     const totalCount = counts.reduce((sum, r) => sum + (r.count ?? 0), 0);
@@ -30,7 +31,8 @@ export async function autoSeedIfEmpty() {
     }
 
     const { characters, poses, clothing, backgrounds, settings } = seedData;
-    const totalSeed = characters.length + poses.length + clothing.length + backgrounds.length + settings.length;
+    const faces = seedData.faces ?? [];
+    const totalSeed = characters.length + poses.length + clothing.length + backgrounds.length + settings.length + faces.length;
 
     if (totalSeed === 0) {
       console.log(TAG, 'Seed file is empty, nothing to insert.');
@@ -68,6 +70,12 @@ export async function autoSeedIfEmpty() {
       const { error } = await supabase.from('settings_presets').insert(settings);
       if (error) console.error(TAG, 'Error seeding settings:', error);
       else console.log(TAG, `Seeded ${settings.length} settings presets`);
+    }
+
+    if (faces.length > 0) {
+      const { error } = await supabase.from('face_presets').insert(faces);
+      if (error) console.error(TAG, 'Error seeding faces:', error);
+      else console.log(TAG, `Seeded ${faces.length} face presets`);
     }
 
     console.log(TAG, 'Seeding complete!');

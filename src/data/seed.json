@@ -2940,5 +2940,43 @@
       "description": ""
     }
   ],
-  "settings": []
+  "settings": [],
+  "faces": [
+    {
+      "image_url": "https://zdwuahcycujvarauqgup.supabase.co/storage/v1/object/public/studio-assets/images/c359b4f2-4036-436b-abda-c8f5c0a323a6.png"
+    },
+    {
+      "image_url": "https://zdwuahcycujvarauqgup.supabase.co/storage/v1/object/public/studio-assets/images/bbd9fa5b-75d0-4eaf-a436-7917c70132ba.png"
+    },
+    {
+      "image_url": "https://zdwuahcycujvarauqgup.supabase.co/storage/v1/object/public/studio-assets/images/b86360c9-fa2a-43d1-91b7-1b149b444aa1.png"
+    },
+    {
+      "image_url": "https://zdwuahcycujvarauqgup.supabase.co/storage/v1/object/public/studio-assets/images/13cf9b53-00a0-4f1d-a122-e22a6a2091de.png"
+    },
+    {
+      "image_url": "https://zdwuahcycujvarauqgup.supabase.co/storage/v1/object/public/studio-assets/images/95c5a9ea-b780-473f-b865-bd2e073ff0d5.png"
+    },
+    {
+      "image_url": "https://zdwuahcycujvarauqgup.supabase.co/storage/v1/object/public/studio-assets/images/21ed3670-bcc5-4386-a61c-9e9bbe5f65f7.png"
+    },
+    {
+      "image_url": "https://zdwuahcycujvarauqgup.supabase.co/storage/v1/object/public/studio-assets/images/a6db8e53-6036-4ff4-aa7b-78676d8e5834.png"
+    },
+    {
+      "image_url": "https://zdwuahcycujvarauqgup.supabase.co/storage/v1/object/public/studio-assets/images/5ada5b2b-f99f-4ab4-bd42-668f8e780864.png"
+    },
+    {
+      "image_url": "https://zdwuahcycujvarauqgup.supabase.co/storage/v1/object/public/studio-assets/images/d1a28326-891d-44c2-8f69-6ec62b7063b8.png"
+    },
+    {
+      "image_url": "https://zdwuahcycujvarauqgup.supabase.co/storage/v1/object/public/studio-assets/images/b2b0643f-c14d-4bfd-a0bc-7f7a71f53ac3.png"
+    },
+    {
+      "image_url": "https://zdwuahcycujvarauqgup.supabase.co/storage/v1/object/public/studio-assets/images/8cddd04c-27eb-414f-9f59-86850f8fdd82.png"
+    },
+    {
+      "image_url": "https://zdwuahcycujvarauqgup.supabase.co/storage/v1/object/public/studio-assets/images/3ac7060a-4e38-497b-8508-fead3bfbfd3c.jpeg"
+    }
+  ]
 }

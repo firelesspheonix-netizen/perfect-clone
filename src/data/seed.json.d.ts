@@ -5,6 +5,7 @@ declare module '@/data/seed.json' {
     clothing: any[];
     backgrounds: any[];
     settings: any[];
+    faces?: any[];
   };
   export default value;
 }
