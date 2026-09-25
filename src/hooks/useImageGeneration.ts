@@ -168,7 +168,9 @@ function buildPrompt(characters: CharacterConfig[], settings: GenerationSettings
       charParts.push("Keep the natural expression from the face reference.");
     } else if (char.expressionPreset === 'custom' && char.customExpression) {
       charParts.push(`Expression: ${char.customExpression}.`);
-    } else {
+    } else if (char.expressionPreset === 'custom-image' && char.expressionImage) {
+      charParts.push("Expression: match the facial expression from the provided expression reference image exactly.");
+    } else if (char.expressionPreset !== 'custom-image') {
       charParts.push(`Expression: ${char.expressionPreset}.`);
     }
 
@@ -242,6 +244,7 @@ function collectReferenceImages(characters: CharacterConfig[], settings: Generat
     if (char.clothingImage) images.push(char.clothingImage);
     if (char.poseReferenceImage) images.push(char.poseReferenceImage);
     if (char.hairstyleOption === 'custom-image' && char.hairstyleImage) images.push(char.hairstyleImage);
+    if (char.expressionPreset === 'custom-image' && char.expressionImage) images.push(char.expressionImage);
     char.props.forEach((prop) => {
       if (prop.imageData) images.push(prop.imageData);
     });
