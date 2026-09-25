@@ -127,7 +127,7 @@ export function SavedSettingsPanel({ characters, settings, onLoad }: Props) {
               </button>
               <button
                 onClick={() => handleDelete(preset.id, preset.name)}
-                className="opacity-100 md:opacity-0 md:group-hover:opacity-100 p-0.5 text-destructive hover:bg-destructive/10 rounded transition-all"
+                className="touch-visible p-0.5 text-destructive hover:bg-destructive/10 rounded transition-all"
               >
                 <Trash2 className="w-3 h-3" />
               </button>

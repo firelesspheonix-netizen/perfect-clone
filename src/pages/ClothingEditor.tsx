@@ -92,7 +92,7 @@ export default function ClothingEditor() {
               {results.map((r) => (
                 <div key={r.id} className="group relative rounded-xl overflow-hidden border border-border bg-card">
                   <img src={r.imageUrl} alt="Clothing edit" className="w-full aspect-square object-cover" />
-                  <div className="absolute inset-0 bg-background/60 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                  <div className="touch-visible absolute inset-0 bg-background/60 transition-opacity flex items-center justify-center gap-2">
                     <button onClick={() => downloadImage(r.imageUrl)} className="px-3 py-1.5 text-xs font-semibold bg-primary text-primary-foreground rounded-md hover:opacity-90 flex items-center gap-1"><Download className="w-3 h-3" /> Download</button>
                     <button onClick={() => setSourceImage(r.imageUrl)} className="px-3 py-1.5 text-xs font-semibold bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/80">Use as Source</button>
                   </div>

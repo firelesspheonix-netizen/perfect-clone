@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Image action overlays use pointer capability detection, not viewport breakpoints, so controls remain visible on touch devices.
