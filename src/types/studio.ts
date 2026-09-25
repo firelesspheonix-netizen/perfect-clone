@@ -1,5 +1,5 @@
 export type BodySize = 'extra-small' | 'small' | 'medium' | 'large' | 'extra-large' | 'extra-extra-large';
-export type ExpressionPreset = 'default' | 'smiling' | 'angry' | 'horny' | 'custom';
+export type ExpressionPreset = 'default' | 'smiling' | 'angry' | 'horny' | 'custom' | 'custom-image';
 export type HairstyleOption = 'default' | 'custom-text' | 'custom-image';
 export type CameraAngle = 'auto' | 'front' | 'side' | 'back' | 'over-shoulder' | 'behind-close' | 'low-angle' | 'high-angle' | 'top-down' | 'dutch-angle' | 'custom';
 export type AspectRatio = 'auto' | '1:1' | '4:3' | '3:4' | '16:9' | '9:16' | '3:2' | '2:3' | '21:9' | '4:5' | '5:4' | '7:5' | '5:7' | 'custom';
@@ -52,6 +52,7 @@ export interface CharacterConfig {
   stomachSize: BodySize;
   expressionPreset: ExpressionPreset;
   customExpression: string;
+  expressionImage: string | null;
   actionPrompt: string;
   posePreset: PosePreset;
   skinTone: SkinTone;
@@ -120,6 +121,7 @@ export function createDefaultCharacter(id: string, index: number): CharacterConf
     stomachSize: 'medium',
     expressionPreset: 'default',
     customExpression: '',
+    expressionImage: null,
     actionPrompt: '',
     posePreset: 'none',
     skinTone: 5,

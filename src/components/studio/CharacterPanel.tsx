@@ -30,6 +30,7 @@ const EXPRESSIONS: { value: ExpressionPreset; label: string }[] = [
   { value: 'angry', label: 'Angry' },
   { value: 'horny', label: 'Seductive' },
   { value: 'custom', label: 'Custom' },
+  { value: 'custom-image', label: 'Image' },
 ];
 
 const POSE_PRESETS: { value: PosePreset; label: string }[] = [
@@ -715,6 +716,9 @@ export function CharacterPanel({ character, onChange, onRemove, canRemove, poseO
             </div>
             {character.expressionPreset === 'custom' && (
               <input className="w-full bg-secondary border border-border rounded-md px-2 py-1.5 text-xs text-foreground outline-none focus:ring-1 focus:ring-primary" placeholder="Describe expression..." value={character.customExpression} onChange={(e) => update('customExpression', e.target.value)} />
+            )}
+            {character.expressionPreset === 'custom-image' && (
+              <ImageUpload label="" value={character.expressionImage} onChange={(v) => update('expressionImage', v)} />
             )}
           </div>
 
