@@ -391,7 +391,7 @@ export function CharacterPanel({ character, onChange, onRemove, canRemove, poseO
                       <img src={img} alt={`Face ref ${idx + 2}`} className="w-12 h-12 rounded-md object-cover border border-border" />
                       <button
                         onClick={() => update('additionalFaceImages', character.additionalFaceImages.filter((_, i) => i !== idx))}
-                        className="absolute -top-1 -right-1 w-4 h-4 bg-destructive text-destructive-foreground rounded-full flex items-center justify-center opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity"
+                        className="touch-visible absolute -top-1 -right-1 w-4 h-4 bg-destructive text-destructive-foreground rounded-full flex items-center justify-center transition-opacity"
                       >
                         <XIcon className="w-2.5 h-2.5" />
                       </button>
