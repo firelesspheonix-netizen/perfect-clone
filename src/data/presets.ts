@@ -10,6 +10,7 @@ export interface CharacterPreset {
     faceImage: string | null;
     additionalFaceImages: string[];
     sideProfileImage: string | null;
+    clothingBackImage: string | null;
     hairstyleOption: HairstyleOption;
     hairstyleText: string;
     hairstyleImage: string | null;
@@ -114,6 +115,7 @@ export function characterToPreset(name: string, char: CharacterConfig): Characte
       faceImage: char.faceImage,
       additionalFaceImages: char.additionalFaceImages,
       sideProfileImage: char.sideProfileImage,
+      clothingBackImage: char.clothingBackImage,
       hairstyleOption: char.hairstyleOption,
       hairstyleText: char.hairstyleText,
       hairstyleImage: char.hairstyleImage,

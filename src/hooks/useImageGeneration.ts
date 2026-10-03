@@ -136,6 +136,9 @@ function buildPrompt(characters: CharacterConfig[], settings: GenerationSettings
     if (char.clothingImage) {
       charParts.push("Dress this person in the exact clothing shown in the provided clothing reference image.");
     }
+    if (char.clothingBackImage) {
+      charParts.push("A back-view clothing reference image is also provided. Use it together with the front clothing reference to reproduce the garment's rear design, fit, color, and details accurately whenever visible.");
+    }
     if (char.clothingText) {
       charParts.push(`Clothing: ${char.clothingText}.`);
     }
@@ -242,6 +245,7 @@ function collectReferenceImages(characters: CharacterConfig[], settings: Generat
     }
     if (char.sideProfileImage) images.push(char.sideProfileImage);
     if (char.clothingImage) images.push(char.clothingImage);
+    if (char.clothingBackImage) images.push(char.clothingBackImage);
     if (char.poseReferenceImage) images.push(char.poseReferenceImage);
     if (char.hairstyleOption === 'custom-image' && char.hairstyleImage) images.push(char.hairstyleImage);
     if (char.expressionPreset === 'custom-image' && char.expressionImage) images.push(char.expressionImage);
