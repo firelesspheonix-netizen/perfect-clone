@@ -406,7 +406,8 @@ export function CharacterPanel({ character, onChange, onRemove, canRemove, poseO
 
           {/* Clothing Section with Gallery */}
           <div className="grid grid-cols-2 gap-2">
-            <ImageUpload label="Clothing" value={character.clothingImage} onChange={(v) => update('clothingImage', v)} />
+            <ImageUpload label="Clothing (Front)" value={character.clothingImage} onChange={(v) => update('clothingImage', v)} />
+            <ImageUpload label="Clothing (Back, Optional)" value={character.clothingBackImage ?? null} onChange={(v) => update('clothingBackImage', v)} />
           </div>
           <div className="flex gap-1">
             <button onClick={async () => {

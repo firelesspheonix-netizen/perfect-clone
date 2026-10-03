@@ -42,6 +42,7 @@ export interface CharacterConfig {
   faceImage: string | null;
   additionalFaceImages: string[];
   clothingImage: string | null;
+  clothingBackImage: string | null;
   clothingText: string;
   poseReferenceImage: string | null;
   hairstyleOption: HairstyleOption;
@@ -111,6 +112,7 @@ export function createDefaultCharacter(id: string, index: number): CharacterConf
     faceImage: null,
     additionalFaceImages: [],
     clothingImage: null,
+    clothingBackImage: null,
     clothingText: '',
     poseReferenceImage: null,
     hairstyleOption: 'default',
