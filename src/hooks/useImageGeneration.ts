@@ -262,18 +262,48 @@ function collectReferenceImages(characters: CharacterConfig[], settings: Generat
 
 export function useImageGeneration() {
   const [generatingCount, setGeneratingCount] = useState(0);
-  const [generatedImages, setGeneratedImages] = useState<GeneratedImage[]>(() => {
-    try {
-      const cached = localStorage.getItem('generated_images');
-      return cached ? JSON.parse(cached) : [];
-    } catch { return []; }
-  });
-  const [isLoading, setIsLoading] = useState(false);
+  const [generatedImages, setGeneratedImages] = useState<GeneratedImage[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Sync to localStorage whenever images change
+  // Load saved history from the database (works across devices / restarts)
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const cached = localStorage.getItem('generated_images');
+        if (cached) setGeneratedImages(JSON.parse(cached));
+      } catch { /* ignore */ }
+      try {
+        const { data, error } = await supabase
+          .from('generation_history')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .limit(300);
+        if (error) throw error;
+        if (!cancelled && data) {
+          setGeneratedImages(data.map((r: any) => ({
+            id: r.id,
+            imageData: r.image_data,
+            prompt: r.prompt,
+            characters: r.characters,
+            settings: r.settings,
+            timestamp: new Date(r.created_at).getTime(),
+          })));
+        }
+      } catch (err) {
+        console.error('Failed to load history:', err);
+      } finally {
+        if (!cancelled) setIsLoading(false);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
+  // Cache only lightweight URL-based entries locally
   useEffect(() => {
     try {
-      localStorage.setItem('generated_images', JSON.stringify(generatedImages));
+      const light = generatedImages.filter((i) => !i.imageData.startsWith('data:')).slice(0, 100);
+      localStorage.setItem('generated_images', JSON.stringify(light));
     } catch (e) {
       console.warn('Failed to cache images to localStorage:', e);
     }
