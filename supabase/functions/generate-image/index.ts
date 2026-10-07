@@ -8,6 +8,55 @@ const corsHeaders = {
 const normalizeModel = (m?: string) =>
   (m || "google/gemini-3-pro-image").replace(/-preview$/, "");
 
+function toBase64(bytes: Uint8Array): string {
+  let bin = "";
+  const chunk = 0x8000;
+  for (let i = 0; i < bytes.length; i += chunk) {
+    bin += String.fromCharCode(...bytes.subarray(i, i + chunk));
+  }
+  return btoa(bin);
+}
+
+async function fetchAsDataUrl(url: string): Promise<string | null> {
+  if (!/^https?:\/\//.test(url)) return url;
+  try {
+    const res = await fetch(url, { signal: AbortSignal.timeout(20000) });
+    if (!res.ok) { console.warn("Reference fetch failed", res.status, url); return null; }
+    const type = res.headers.get("content-type") || "image/jpeg";
+    const bytes = new Uint8Array(await res.arrayBuffer());
+    return `data:${type};base64,${toBase64(bytes)}`;
+  } catch (e) {
+    console.warn("Reference fetch error, skipping:", url, e);
+    return null;
+  }
+}
+
+async function storeImage(dataUrl: string): Promise<string | null> {
+  try {
+    const m = dataUrl.match(/^data:([^;]+);base64,(.+)$/);
+    if (!m) return null;
+    const type = m[1];
+    const bin = atob(m[2]);
+    const bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    const ext = type.split("/")[1] || "png";
+    const path = `generated/${crypto.randomUUID()}.${ext}`;
+    const base = Deno.env.get("SUPABASE_URL");
+    const key = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+    if (!base || !key) return null;
+    const up = await fetch(`${base}/storage/v1/object/studio-assets/${path}`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${key}`, apikey: key, "Content-Type": type },
+      body: bytes,
+    });
+    if (!up.ok) { console.error("Upload failed", up.status, await up.text()); return null; }
+    return `${base}/storage/v1/object/public/studio-assets/${path}`;
+  } catch (e) {
+    console.error("storeImage error", e);
+    return null;
+  }
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -21,10 +70,12 @@ serve(async (req) => {
 
     const content: any[] = [{ type: "text", text: prompt }];
 
-    if (referenceImages && Array.isArray(referenceImages)) {
-      for (const img of referenceImages) {
-        if (img) content.push({ type: "image_url", image_url: { url: img } });
-      }
+    // Pre-fetch remote references in parallel with a timeout so one slow
+    // image host can't stall or fail the whole generation.
+    const refs: string[] = Array.isArray(referenceImages) ? referenceImages.filter(Boolean) : [];
+    const resolved = await Promise.all(refs.map(fetchAsDataUrl));
+    for (const url of resolved) {
+      if (url) content.push({ type: "image_url", image_url: { url } });
     }
 
     // Only transient 5xx / network failures are retried. Every 4xx and every
@@ -71,7 +122,8 @@ serve(async (req) => {
           return new Response(JSON.stringify({ error: "The model returned no image (request was still billed). Try adjusting your prompt." }), { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } });
         }
 
-        return new Response(JSON.stringify({ imageUrl, textContent, attempts: attempt }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+        const storedUrl = await storeImage(imageUrl);
+        return new Response(JSON.stringify({ imageUrl: storedUrl ?? imageUrl, textContent, attempts: attempt }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
       } catch (err) {
         console.error(`Fetch error (attempt ${attempt}/${MAX_RETRIES}):`, err);
         lastError = err instanceof Error ? err.message : "Unknown fetch error";
